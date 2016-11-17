@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html><head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="./css/ext/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/ext/font-awesome.min.css">
+		<link rel="stylesheet" href="./css/all-apps.css">
+		
+		<script type="text/javascript" src="./js/ext/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/webank.js"></script>
+			
+		<script type="text/javascript">
+		$(document).ready(function() {
+			webank.resizeIframeCascade();
+			webank.stopSpinner();
+		});
+		
+		function signer() {
+			$('#sign-orders').submit();
+			return true;
+		}
+		</script>
+	</head>
+
+
+
+
+	<body>
+		
+			
+			<div class="container-fluid" id="container">
+				<div class="header">Virement européen SEPA</div>
+				
+				<div class="content">
+					
+					
+					
+	
+					<div class="form-horizontal">
+						<div class="form-group">
+							<div class="col-xs-12">
+								Émetteur
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-2">
+								Compte émetteur :
+							</label>
+							<div class="col-xs-10">
+								COMPTE A VUE - 99999999001 - COMPTE FR7600002123459999999900186
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-xs-12">
+								Caractéristiques
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-2">
+								Montant de l'ordre
+							</label>
+							<div class="col-xs-10">
+								150,00 EUR
+							</div>
+						</div>
+					
+						
+						<div class="form-group">
+							<label class="col-xs-2">
+								Date d'exécution
+							</label>
+							<div class="col-xs-10">
+								25/10/2016
+							</div>
+						</div>
+						
+						
+						
+						
+						
+						
+						<!--
+						<div class="form-group">
+							<label class="col-xs-2">
+								Référence End to End
+							</label>
+							<div class="col-xs-10">
+								
+							</div>
+						</div>
+						-->
+						
+						
+						
+						<div class="form-group">
+							<div class="col-xs-12">
+								Bénéficiaire
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-12">
+								<table class="efs-table tiles">
+									<thead>
+										<tr>
+											<th>Nom / Raison sociale</th>
+											
+											<th>Compte bénéficiaire</th>
+											
+											<th>Motif de l'opération</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+									
+										
+										<tr class="tile">
+											<td>COMPTE FR7600002123459999999900477</td>
+											
+												<td>FR7600002123459999999900477</td>
+											
+											<td>DEMO VIREMENT</td>
+											
+										</tr>
+									
+									</tbody>
+								</table>
+							</div>
+						</div>
+	 					
+	 					
+						<div class="form-group">
+							<div class="col-xs-12">
+								<div class="piste-audit">
+									<table style="width:100%;">
+										<tbody><tr>
+											<td width="35%"><span class="grey-text">Statut :&nbsp;</span><span class="bold">Valide et à signer</span></td>
+											<td width="8%"><span class="grey-text">Actions :&nbsp;</span></td>
+											<td class="text-left"><b>Déposé
+											par 
+											<b>M GERARD DUPONT</b>
+											</b></td>
+											<td class="text-right" nowrap="nowrap">21/10/16 - 12h04</td>
+										</tr>
+										
+										
+										
+										<tr>
+										
+											<td><span class="grey-text">Transmis le : </span><span class="bold">21/10/16 - 12h04</span></td>
+										
+											<td></td>
+											<td class="text-left"><b>A signer
+											par 
+											M GERARD DUPONT</b>
+											</td>
+											<td class="text-right" nowrap="nowrap">
+												
+											</td>
+										</tr>
+										
+										<tr>
+										
+											<td></td>
+										
+											<td></td>
+											<td class="text-left"><b>A signer
+											par 
+											Mme Mafalda Pereira</b>
+											</td>
+											<td class="text-right" nowrap="nowrap">
+												
+											</td>
+										</tr>
+										
+									</tbody></table>
+								</div>
+							</div>
+						</div>
+						
+						<!-- ------------------------------------------ -->
+						<!-- ENVOI MAIL AUX SIGNATAIRES                 -->
+						<!-- ------------------------------------------ -->
+						
+							
+								<div class="form-group">
+									<div class="col-xs-12">
+										
+										
+
+
+ 
+
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tbody><tr>
+        <td colspan="4">
+        	<table width="100%" align="center">
+          		<tbody><tr>
+            		<td colspan="2" height="33">
+            			<div class="text-bloc-mail">
+            				
+	            				<span style="font-weight:bold;">Pour adresser un email d'avis de dépôt d'opération(s) au(x) signataire(s), cochez ici :</span>
+	            				<span style="margin-left:10px"><input name="chkMail" id="chkMail" onclick="" type="checkbox"></span>
+            				
+            				
+              			</div>
+              		</td>
+          		</tr>
+	          	<tr>
+	            	<td>
+	            		<div class="text-bloc-mail">
+	            			<span style="margin-left:5px;">(sous réserve que les emails aient bien été renseignés)</span>
+	            		</div>
+	            	</td>
+	          	</tr>
+	          		
+	          	
+	         		<tr>
+	            		<td>
+	              			<div id="buttonsForm" class="text-bloc-mail text-center">
+	              					<input value="Envoyer" class="btn btn-efs" style="" type="button">
+	              			</div>
+	              		</td>
+	          		</tr>
+          		
+        	</tbody></table>
+       </td>
+       </tr>
+       
+      
+       
+	</tbody></table>
+	<br>
+	<div id="msgError" style="display:none" align="left">
+		???fr.send.mail.error???
+		
+	</div>	
+
+									</div>
+								</div>
+							
+						
+						
+						<div class="form-group">
+							<div class="col-xs-12 text-right">
+								
+								<a href="./step1.html" class="btn btn-efs-secondary btn-go-left pull-left">
+									Retour au suivi des ordres
+								</a>	
+										<form id="sign-orders" class="form-horizontal" action="./step4.html" method="POST">
+											<button id="btn-sign" class="btn btn-efs btn-sign" onclick="javascript:signer()">
+												Signer
+											</button>
+										</form>
+										
+									
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+	
+</body></html>

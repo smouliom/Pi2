@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html><head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="./css/ext/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/ext/font-awesome.min.css">
+		<link rel="stylesheet" href="./css/all-apps.css">
+		
+		<script type="text/javascript" src="./js/ext/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/webank.js"></script>
+		
+			
+		<script type="text/javascript">
+		$(function() {
+			webank.resizeIframeCascade();
+			webank.stopSpinner();
+		});
+		</script>
+	</head>
+	<body>
+		
+			
+				<div class="container-fluid" id="container">
+					<div class="header">Virement européen SEPA</div>
+					<div class="content">
+						
+					
+						
+						
+						<form id="vrt-sepa" class="form-horizontal" action="./step3.html" method="POST">
+<input name="token" value="e2d453a4ccc6e0f244c214a7952e876b" type="hidden">
+							<input name="nbDecimal" value="2" type="hidden">
+							<input name="action" value="" type="hidden">
+							
+							<div class="form-group">
+								<div class="col-xs-12">
+									Émetteur
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2">
+									Compte émetteur :
+								</label>
+								<div class="col-xs-10">
+									COMPTE A VUE - 99999999001 - COMPTE FR7600002123459999999900186
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-xs-12">
+									Caractéristiques
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2">
+									Montant de l'ordre
+								</label>
+								<div class="col-xs-10">
+									150,00 EUR
+								</div>
+							</div>
+						
+							
+							<div class="form-group">
+								<label class="col-xs-2">
+									Date d'exécution
+								</label>
+								<div class="col-xs-10">
+									25/10/2016
+								</div>
+							</div>
+							
+						
+							<!--
+							<div class="form-group">
+								<label class="col-xs-2">
+									Référence End to End
+								</label>
+								<div class="col-xs-10">
+									REF 123 DEMO VIREMENT
+								</div>
+							</div>
+							-->
+							
+							
+							<div class="form-group">
+								<div class="col-xs-12">
+									Bénéficiaire
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-xs-12">
+									<table class="efs-table tiles">
+										<thead>
+											<tr>
+												<th>Nom / Raison sociale
+												
+												</th><th>Compte bénéficiaire</th>
+												
+												<th>Motif de l'opération</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+										
+											
+											<tr class="tile">
+												<td>COMPTE FR7600002123459999999900477</td>
+												
+													<td>FR7600002123459999999900477</td>
+												
+												<td>DEMO VIREMENT</td>
+												
+											</tr>
+										
+										</tbody>
+									</table>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-xs-12 text-right">
+									<a href="./step1.html" class="btn btn-efs-secondary btn-go-left pull-left">
+										Retour au suivi des ordres
+									</a>
+									
+									<a href="./step1.html" class="btn btn-efs btn-edit">
+										Modifier
+									</a>
+									
+										<button type="submit" id="btn-confirm" class="btn btn-efs btn-valid">
+											Confirmer
+										</button>
+									
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+		
+	
+</body></html>

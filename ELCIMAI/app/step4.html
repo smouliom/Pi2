@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html><head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="./css/ext/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/ext/font-awesome.min.css">
+		<link rel="stylesheet" href="./css/all-apps.css">
+		
+		<script type="text/javascript" src="./js/ext/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/webank.js"></script>
+		
+		<script type="text/javascript">
+		$(function() {
+			webank.resizeIframeCascade();
+			webank.stopSpinner();
+		});
+		</script>
+	</head>
+
+	<body>
+		
+			
+			<div class="container-fluid" id="container">
+				<div class="header">Virement européen SEPA</div>
+				<div class="content">
+					<div class="form-horizontal">
+						<div class="form-group">
+							<div class="col-xs-12">
+								Émetteur
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-2">
+								Compte émetteur :
+							</label>
+							<div class="col-xs-10">
+								COMPTE A VUE - 99999999001 - COMPTE FR7600002123459999999900186
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-xs-12">
+								Caractéristiques
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-2">
+								Montant de l'ordre
+							</label>
+							<div class="col-xs-10">
+								150,00 EUR
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label class="col-xs-2">
+								Date d'exécution
+							</label>
+							<div class="col-xs-10">
+								25/10/2016
+							</div>
+						</div>
+						
+						
+						<!--
+						<div class="form-group">
+							<label class="col-xs-2">
+								Référence End to End
+							</label>
+							<div class="col-xs-10">
+								
+							</div>
+						</div>
+						-->
+						
+						<div class="form-group">
+							<div class="col-xs-12">
+								Bénéficiaire
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-12">
+								<table class="efs-table tiles">
+									<thead>
+										<tr>
+											<th class="filter-column">Nom / Raison sociale</th>
+											
+											<th class="filter-column">Compte bénéficiaire</th>
+											
+											<th class="filter-column">Motif de l'opération</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+									
+										
+											
+											<tr class="tile">
+												<td>COMPTE FR7600002123459999999900477</td>
+												
+												<td>FR7600002123459999999900477</td>
+												
+												<td>DEMO VIREMENT</td>
+												
+											</tr>
+										
+									
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			
+		<link rel="stylesheet" type="text/css" href="./css/ext/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="./css/ext/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="./css/all-apps.css">
+
+		<script type="text/javascript" src="./js/ext/deployJava.js"></script>
+		<script type="text/javascript" src="./js/ext/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/ext/underscore.min.js"></script>
+		<script type="text/javascript" src="./js/webank.js"></script>
+
+		<script>
+			var SIGN_SUBMITED = false;
+			$(function() {
+				webank.stopSpinner();
+				
+				
+				webank.manageTabs($('#tabs'), $('#tabs-content'), function($this, $previous) {
+					$(document.getElementsByClassName("bg-danger")).hide();
+					if ($this.attr('data-target') == "#cap") {
+						var iframe =  document.createElement("iframe");
+						iframe.frameBorder = "0";
+						iframe.scrolling = "no";
+						iframe.src = "./cap.do";
+						iframe.id = "empty";
+						iframe.name= "empty";
+						iframe.height = '0px';
+						var element = document.getElementById("empty");
+						if(element != undefined) {
+							$($this.attr('data-target'))[0].removeChild(element);
+						}
+						$($this.attr('data-target'))[0].appendChild(iframe);
+						
+						jQuery("#btn-sign").show();
+						if (jQuery("#btn-refus")) {
+							jQuery("#btn-refus").show();
+						}
+						jQuery("#btn-retour").show();
+						webank.resizeIframeCascade();
+					} else if ($this.attr('data-target') == "#qrCode") {
+						jQuery("#btn-sign").hide();
+						if (jQuery("#btn-refus")) {
+							jQuery("#btn-refus").hide();
+						}
+						jQuery("#btn-retour").hide();
+						webank.resizeIframeCascade();
+					} else if ($this.attr('data-target') == "#motp") {
+						jQuery("#btn-sign").show();
+						if (jQuery("#btn-refus")) {
+							jQuery("#btn-refus").show();
+						}
+						jQuery("#btn-retour").show();
+					}
+					
+					webank.resizeIframeCascade();
+				});
+				
+				
+				
+				
+			
+				
+				
+				webank.resizeIframeCascade();
+			});
+			
+			function fCancel() {
+					document.location.replace('./step1.html');
+			}
+			
+			function submitElevationForm() {
+				jQuery('#tabs-content > .active > form').submit();
+				return false;
+			}
+			
+			
+			function passToOtherFocus(currentInput, targetInput) {
+				if(currentInput.value.length == 4) {
+					$(targetInput).focus();
+				}
+			}
+			
+		</script>
+	
+	
+		
+			<div id="container" class="container-fluid">
+				
+				<ul id="tabs" class="tabs clearfix">
+				
+					<li data-target="#motp" style="width:25%;" class="active">Code de transaction</li>
+				
+					<li data-target="#cap" style="width:25%;" class="">Carte CAP</li>
+				
+					<li data-target="#qrCode" style="width:25%;" class="">QR Code</li>
+				
+					<li class="empty" style="width:25%">&nbsp;</li>
+				
+				</ul>
+				<div id="tabs-content" class="tabs-content">
+					<div id="accueil" class="tab-content active"></div>
+					<div id="motp" class="tab-content active">
+						
+						
+							<form method="post" action="./step1.html" style="width:100%;margin: auto;" onsubmit="webank.startSpinner({showBackDrop: true, currentContainer: '#primary-content'});">
+							<input value="select_flx" name="signact" type="hidden"><input value="p" name="signMethod" type="hidden"><input value="150.00" name="montant" type="hidden"><input value="saisie" name="modeVirement" type="hidden"><input value="WBSCT3_O_5809e83985125dbe_0" name="cptSelected" type="hidden"><input value="signSignatures" name="actionMethod" type="hidden">
+								<input value="motp" name="mode" type="hidden">
+								<div>
+								
+									<span>Cliquez sur le bouton ci-contre pour recevoir votre code à usage unique puis saisissez votre code de transaction sur 4 caractères puis le code à usage unique reçu sur votre téléphone mobile : <b>06 6X XX XX 00</b>. Si ce numéro n'est pas le vôtre, merci de contacter votre conseiller.</span>
+								
+								</div>
+								<div style="background-color:white;color:black;">
+									<div class="form-group" style="width:100%;margin: auto;margin-top:15px;">
+										<table style="border:none !important;margin-top:15px;margin:auto;">
+										
+											<tbody><tr><td style="border:none;" colspan="2"><button id="btnSms" style="margin-bottom:10px;margin-left: 30%" type="button" class="btn btn-efs" >Recevoir mon code SMS</button></td></tr><tr>
+										
+											</tr><tr>
+												<td style="border:none;"><input style="text-align:center;margin-right:10px;" maxlength="4" class="form-control" id="pin2" name="pin2" placeholder="Code de transaction" onkeyup="passToOtherFocus(this,'#mOTP');" autocomplete="off" type="password"></td>
+												<td style="border:none;"><input style="text-align:center;margin-left:10px;" class="form-control" id="mOTP" name="mOTP" placeholder="Code reçu par SMS" type="text"></td>
+											</tr>
+											<tr>
+												<td style="border:none;text-align:center;padding-top: 15px;"><span style="color:grey;">Saisir votre code de<br> transaction sur 4<br> positions</span></td>
+												<td style="border:none;text-align:center;padding-top: 15px;"><span style="color:grey;">Saisir le code à usage<br> unique reçu sur votre<br> téléphone mobile</span></td>
+											</tr>
+										</tbody></table>
+									</div>
+								</div>
+							</form>
+						
+						
+					</div>
+					<div id="cap" class="tab-content">
+						
+						<form method="post" name="signCapForm" action="./step1.html" style="width:100%;">
+						<input value="select_flx" name="signact" type="hidden"><input value="p" name="signMethod" type="hidden"><input value="150.00" name="montant" type="hidden"><input value="saisie" name="modeVirement" type="hidden"><input value="WBSCT3_O_5809e83985125dbe_0" name="cptSelected" type="hidden"><input value="signSignatures" name="actionMethod" type="hidden">
+							<span>Pour générer le code à usage unique, nous avons généré le défi (ou challenge) suivant : <b><span id="challenge">93176684</span></b><br></span>
+							<input value="login" name="josso_cmd" type="hidden">
+							<input value="CAP" name="mode" type="hidden">
+							<div class="form-group" style="width:50%;margin: auto;">
+								<table style="border:none !important;margin-top:15px;">
+									<tbody><tr>
+										<td style="border:none;"><input style="text-align:center;margin-right:10px;" maxlength="4" class="form-control" id="signature1" name="signedChallenge1" onkeyup="passToOtherFocus(this,'#signature2');" type="text"></td>
+										<td style="border:none;"><input style="text-align:center;margin-left:10px;" maxlength="4" class="form-control" id="signature2" name="signedChallenge2" type="text"></td>
+									</tr>
+									<tr>
+										<td style="border:none;text-align:center;height: 55px;" colspan="2"><span style="color:grey;">Saisir dans ces 2 zones le code à usage unique fourni par votre lecteur de carte à puce</span></td>
+									</tr>
+								</tbody></table>
+							</div>
+						</form>
+					<iframe scrolling="no" src="./cap.do" id="empty" name="empty" height="0px" frameborder="0"></iframe></div>
+				</div>
+				
+			</div>
+		
+		
+			<textarea style="display: none;" name="datas" id="datas" cols="60" rows="10" onfocus="this.blur();">&lt;HTML&gt;&lt;HEAD&gt;&lt;STYLE type="text/css"&gt;table{border-collapse:collapse;font:12px arial;width:100%;}td.LABEL{padding:2px; width:40%;font-weight:bold;}td.VALUE{padding:2px;width:60%;}&lt;/STYLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;&lt;table&gt;&lt;tr&gt;&lt;td class="LABEL"&gt;Type :&lt;/td&gt;&lt;td class="VALUE"&gt;&lt;b&gt;Confirmation&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table border="1"&gt;&lt;tr&gt;&lt;td class="LABEL"&gt;Application&lt;/td&gt;&lt;td class="VALUE"&gt;VIREMENTS EUROPEENS SEPA&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class="LABEL"&gt;Emetteur&lt;/td&gt;&lt;td class="VALUE"&gt;DEMO&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class="LABEL"&gt;Compte émetteur&lt;/td&gt;&lt;td class="VALUE"&gt;99999999001&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class="LABEL"&gt;Date de transmission&lt;/td&gt;&lt;td class="VALUE"&gt;21/10/2016 à 12:04:41&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class="LABEL"&gt;Nombre d'opérations&lt;/td&gt;&lt;td class="VALUE"&gt;1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class="LABEL"&gt;Montant&lt;/td&gt;&lt;td class="VALUE"&gt;150,00 EUR&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/BODY&gt;&lt;/HTML&gt;</textarea>
+		
+		
+		<br><br>
+	
+
+
+						
+						<div class="btn-block btn-container">
+							<span class="pull-right">
+								<a id="btn-retour" class="btn btn-efs-secondary btn-cancel" href="./step1.html" style="display: inline-block;">Annuler</a>
+								<button id="btn-sign" type="button" onclick="submitElevationForm();" class="btn btn-efs btn-valid" style="display: inline-block;">Valider</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+	
+</body></html>

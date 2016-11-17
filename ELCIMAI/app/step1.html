@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html><head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="./css/ext/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/ext/font-awesome.min.css">
+		<link rel="stylesheet" href="./css/all-apps.css">
+		
+		<script type="text/javascript" src="./js/ext/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/ext/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="./js/ext/datepicker-fr.js"></script>
+		
+		<script type="text/javascript" src="./js/webank.js"></script>
+		<script type="text/javascript" src="./js/webankValidator.js"></script>
+		<script src="./app.js"></script>
+		
+		<script>
+		$(function() {
+			webank.manageInputFile($('.btn-efs-input-file :file'));
+			$("#executionDate").datepicker({minDate: 0});
+
+			var preSelectedAccount = '';
+			$('#first-list ul').on('click', 'li', function() {
+				var $this = $(this);
+				var isSelected = toggleItemsVisibility(this);
+				var itemId = $this.data('item-id');
+
+				$('input[name=emetAccount]').attr('value', itemId);
+
+				if(isSelected) toggleItemsVisibility($('#second-list ul').find('li.selected'));
+				else $('#other-infos').addClass('hidden');
+
+				$('#second-list').find("[data-item-id='" + itemId + "']").toggleClass('force-hide');
+				$('#second-list').toggleClass('hidden');
+			});
+			
+			$('#second-list ul').on('click', 'li', function() {
+				var $this = $(this);
+				var isSelected = toggleItemsVisibility(this);
+
+				var itemId = $this.data('item-id');
+				var typeDest = $this.data('item-type-dest');
+
+				$('input[name=creditorAccount]').attr('value', itemId);
+				$('input[name=selectTypeDest]').attr('value', typeDest);
+
+				$('#other-infos').toggleClass('hidden');
+			});
+			
+			function toggleItemsVisibility(selectedItem) {
+				var $this = $(selectedItem);
+				var $parent = $this.closest('.parallel-list');
+				var siblings = $this.siblings('li');
+
+				$this.toggleClass('selected');
+
+				if($this.hasClass('selected')) {
+					siblings.addClass('hidden');
+					$parent.addClass('child-selected');
+				} else {
+					siblings.removeClass('hidden');
+					$parent.removeClass('child-selected');
+				}
+
+				return $this.hasClass('selected');
+			}
+			
+			if(preSelectedAccount) {
+				$('#first-list ul').find('[data-item-num="' + preSelectedAccount + '"]').trigger('click');
+			}
+			webank.resizeIframeCascade();
+
+			$('#saisie-form').on('submit', function() {
+				$('#errorJsId').hide();
+
+				var msgError = verifyForm();
+				if (msgError != "") {
+					$('#errorJsId').html('<p class="bg-danger">' + msgError + '</p>');
+					$('#errorJsId').show();
+					return false;
+				}
+				return true;
+			});
+			
+			if ($('#errorJsId').html() != "") {
+				$('#errorJsId').show();
+			}
+			
+			
+		});
+			
+		function verifyForm() {
+			var msgError = "";
+			
+			// Compte bénéficiaire 
+			var creditorAcc = $('#creditorAccount').val();
+			if (creditorAcc=="") {
+				msgError = addMsgError(msgError,'Le compte à créditer est obligatoire.');
+			}
+
+			// Compte émetteur = compte destinataire
+			var emetAcc = $('#emetAccount').val();
+			if (emetAcc == creditorAcc) {
+				msgError = addMsgError(msgError,'Le compte à créditer doit être différent du compte à débiter.');
+			}
+
+			// Montant
+			var amount = Number($('#transferAmount').val());
+			if(amount == "") {
+				msgError = addMsgError(msgError,'Le montant est obligatoire.');
+			} else {
+				if (isNaN(amount))
+					msgError = addMsgError(msgError,'Le montant est invalide.');
+				else {
+					var validAmount = webankValidator.isAmount(amount.toString(),2,false);  
+					if(!validAmount) { 
+						msgError = addMsgError(msgError,'Le montant est invalide.');
+					}
+				}
+			}
+
+			//Date d'exécution
+			var executionDate = $('#executionDate').val();
+			if (executionDate == "") {
+				msgError = addMsgError(msgError, 'La date d\'exécution est obligatoire.');
+			} else {
+				var validDate = webankValidator.checkDate(executionDate,"dd/MM/yyyy","/");
+				if (!validDate) {
+					msgError = addMsgError(msgError,'La date est invalide.');
+				}
+				
+				var pastDate = webankValidator.isPastDate(executionDate,"/");
+				if (pastDate) {
+					msgError = addMsgError(msgError,'La date est invalide car antérieure à la date du jour.');
+				}
+			}
+			
+			//Libellé
+			var reason = $('#reason').val();
+			if (reason != "") {
+				var validReason = webankValidator.isSepaAlnum(reason);
+				if (!validReason) {
+					msgError = addMsgError(msgError,"Le motif de l'opération accepte les valeurs alphanumériques sans accent ainsi que les caractères spéciaux suivants : / - ? : ( ) . , ' + ou l'espace.");
+				}
+			}
+			
+			return msgError;
+		}
+		
+		function addMsgError (msgError,msgToAdd) {
+			if (msgError == "")
+				return (msgError + msgToAdd);
+			else 
+				return (msgError + '<br>' + msgToAdd);
+		}
+		</script>
+	</head>
+	<body>
+		<div class="container-fluid" id="container">
+			<div class="header">Effectuer un virement européen SEPA</div>
+			
+			<ul id="sub-tabs" class="tabs sub-header">
+				<li class="active" style="width: 25%">
+					<a href="/transaction/action/private/transactions/creditor/orders/ordersSaisie.do&amp;grpOpe=VIR&amp;appli_param=WBSCT3">Unitaire</a>
+				</li>
+				<li class="empty" style="width: 75%">&nbsp;</li>
+			</ul>
+			
+
+			<div class="content tabs-content">
+				
+				
+				
+					
+						
+					
+						<form id="saisie-form" class="form-horizontal" action="./step2.html" method="POST" enctype="multipart/form-data">
+							<input name="nbDecimal" value="2" type="hidden">
+							<input name="emetAccount" value="981608" id="emetAccount" type="hidden">
+							<input name="creditorAccount" value="" id="creditorAccount" type="hidden">
+							<input name="action" value="" type="hidden"> 
+							<input name="selectTypeDest" value="" type="hidden"> 
+						
+							
+						
+							
+							<div id="errorJsId" style="">
+								
+							</div>
+							
+							<!-- Virement SEPA -->
+							<div id="sepa" class="tab-content active">
+								<div class="form-group parallel-lists">
+									<div class="col-xs-6">
+										<div>Sélectionnez un compte à débiter</div>
+										<div id="first-list" class="parallel-list">
+											<ul id="left-side">
+												
+												
+												
+												<!-- *************** Entreprise ****************** -->
+												
+												
+													
+													<li data-item-id="981608" data-item-num="99999999001">
+														COMPTE FR7600002123459999999900186
+														
+													</li>
+												
+													
+													<li data-item-id="981610" data-item-num="99999999002">
+														COMPTE DEMO TEST
+														
+															(20/10/2016&nbsp;:&nbsp;488&nbsp;027,58 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981614" data-item-num="99999999004">
+														COMPTE FR7600002123459999999900477
+														
+													</li>
+												
+													
+													<li data-item-id="981697" data-item-num="11111111111">
+														COMPTE SOCIETE GENERALE 11111111111
+														
+															(20/10/2016&nbsp;:&nbsp;2&nbsp;500,00 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981699" data-item-num="22222222222">
+														COMPTE SG FR7630003030202222222222210
+														
+															(20/10/2016&nbsp;:&nbsp;897&nbsp;986,00 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981701" data-item-num="33333333333">
+														COMPTE CA FR7618406000103333333333342
+														
+															(20/10/2016&nbsp;:&nbsp;-562,00 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981703" data-item-num="44444444444">
+														COMPTE CA FR7618406000104444444444473
+														
+															(20/10/2016&nbsp;:&nbsp;30&nbsp;331,57 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981705" data-item-num="55555555555">
+														COMPTE BNP PARISBAS 55555555555
+														
+															(20/10/2016&nbsp;:&nbsp;32&nbsp;596,00 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981707" data-item-num="66666666666">
+														COMPTE BNP PARISBAS 66666666666
+														
+															(20/10/2016&nbsp;:&nbsp;95&nbsp;263,14 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981711" data-item-num="98797978979">
+														COMPTE SG 98797978979
+														
+															(20/10/2016&nbsp;:&nbsp;30&nbsp;331,57 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981713" data-item-num="45646445456">
+														COMPTE SG 45646445456
+														
+															(20/10/2016&nbsp;:&nbsp;30&nbsp;331,57 EUR)&nbsp;
+														
+													</li>
+												
+													
+													<li data-item-id="981715" data-item-num="13123897987">
+														COMPTE BNP PARIBAS 113123897987
+														
+															(20/10/2016&nbsp;:&nbsp;30&nbsp;331,57 EUR)&nbsp;
+														
+													</li>
+												
+												
+											
+												
+													
+													
+													<li data-item-id="981612" data-item-num="99999999003">
+														COMPTE FR7600002123459999999900380
+														
+													</li>
+												
+												
+											</ul>
+										</div>
+									</div>
+									
+									<div class="col-xs-6">
+										<div>Sélectionnez un compte à créditer</div>
+										<div id="second-list" class="parallel-list hidden">
+											<ul id="right-side">
+												
+												
+											
+												
+												
+												
+												<!-- *************** Entreprise ****************** -->
+												
+													
+														
+														<li data-item-id="981608" data-item-type-dest="INT">
+															COMPTE FR7600002123459999999900186
+															
+														</li>
+													
+														
+														<li data-item-id="981610" data-item-type-dest="INT">
+															COMPTE DEMO TEST
+															
+																(20/10/2016&nbsp;:&nbsp;488&nbsp;027,58 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981614" data-item-type-dest="INT">
+															COMPTE FR7600002123459999999900477
+															
+														</li>
+													
+														
+														<li data-item-id="981697" data-item-type-dest="INT">
+															COMPTE SOCIETE GENERALE 11111111111
+															
+																(20/10/2016&nbsp;:&nbsp;2&nbsp;500,00 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981699" data-item-type-dest="INT">
+															COMPTE SG FR7630003030202222222222210
+															
+																(20/10/2016&nbsp;:&nbsp;897&nbsp;986,00 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981701" data-item-type-dest="INT">
+															COMPTE CA FR7618406000103333333333342
+															
+																(20/10/2016&nbsp;:&nbsp;-562,00 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981703" data-item-type-dest="INT">
+															COMPTE CA FR7618406000104444444444473
+															
+																(20/10/2016&nbsp;:&nbsp;30&nbsp;331,57 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981705" data-item-type-dest="INT">
+															COMPTE BNP PARISBAS 55555555555
+															
+																(20/10/2016&nbsp;:&nbsp;32&nbsp;596,00 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981707" data-item-type-dest="INT">
+															COMPTE BNP PARISBAS 66666666666
+															
+																(20/10/2016&nbsp;:&nbsp;95&nbsp;263,14 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981711" data-item-type-dest="INT">
+															COMPTE SG 98797978979
+															
+																(20/10/2016&nbsp;:&nbsp;30&nbsp;331,57 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981713" data-item-type-dest="INT">
+															COMPTE SG 45646445456
+															
+																(20/10/2016&nbsp;:&nbsp;30&nbsp;331,57 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981715" data-item-type-dest="INT">
+															COMPTE BNP PARIBAS 113123897987
+															
+																(20/10/2016&nbsp;:&nbsp;30&nbsp;331,57 EUR)&nbsp;
+															
+														</li>
+													
+														
+														<li data-item-id="981709" data-item-type-dest="INT">
+															DEMO 0001
+															
+																(20/10/2016&nbsp;:&nbsp;30&nbsp;442,66 EUR)&nbsp;
+															
+														</li>
+													
+												
+													
+														
+														<li data-item-id="981612" data-item-type-dest="INT">
+															COMPTE FR7600002123459999999900380
+															
+														</li>
+													
+													
+													
+														
+														
+															 <!-- Ne pas afficher les comptes présents dans les groupes -->
+																<li data-item-id="13" data-item-type-dest="EXT">
+																	Amazon
+																	FR2588051715671419646813553
+																</li>
+															
+														
+															 <!-- Ne pas afficher les comptes présents dans les groupes -->
+																<li data-item-id="12" data-item-type-dest="EXT">
+																	Nautic
+																	FR1045855428575607434318702
+																</li>
+															
+														
+															 <!-- Ne pas afficher les comptes présents dans les groupes -->
+																<li data-item-id="10" data-item-type-dest="EXT">
+																	WINDSURF LTD
+																	NL14INGB0000005200
+																</li>
+															
+														
+													
+												
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+								<div id="other-infos" class="hidden">
+									<div class="form-group">
+										<label for="transferAmount" class="col-xs-2 control-label">
+											Montant
+										</label>
+										<div class="col-xs-4">
+											<div class="input-group">
+												<input name="transferAmount" value="" onchange="webank.controlAmount(this);" id="transferAmount" class="form-control text-right" type="text">
+												<span class="input-group-addon">&nbsp;EUR</span>
+											</div>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="executionDate" class="col-xs-2 control-label">
+											Date d'exécution
+										</label>
+										<div class="col-xs-4">
+											<div class="has-date-picker">
+												
+												<input name="executionDate" maxlength="10" value="21/10/2016" id="executionDate" class="form-control" type="text">
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="reason" class="col-xs-2 control-label">
+											Motif de l'opération
+										</label>
+										<div class="col-xs-8">
+											<input name="reason" value="" id="reason" class="form-control" type="text">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="endToEndRef" class="col-xs-2 control-label">
+											Référence End to End
+										</label>
+										<div class="col-xs-8">
+											<input name="endToEndRef" maxlength="140" value="" id="endToEndRef" class="form-control" type="text">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="reason" class="col-xs-2 control-label">Pièce justificative</label>
+										<div class="col-xs-8">
+											<div class="input-group">
+												<span class="input-group-btn">
+													<span class="btn btn-efs btn-efs-input-file">
+														Parcourir...
+														<input name="theFile" value="" type="file">
+													</span>
+												</span>
+												<input name="fileName" value="" style="z-index: 1 !important;" class="form-control input-efs-file" type="text">
+											</div>
+											<i class="fa fa-info-circle" style="color: #4285F4;"></i>&nbsp;Vous avez la possibilité de joindre un fichier (factures, bordereaux, etc.) à chaque opération requérant une confirmation (signature ou validation banque).<br>
+Les fichiers joints peuvent être aux formats pdf, jpeg, png, format texte, Word, Excel...
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-xs-12 text-right">
+											<button type="submit" class="btn btn-efs btn-valid">Valider</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					
+				
+			</div>
+		</div>
+	
+</body></html>
