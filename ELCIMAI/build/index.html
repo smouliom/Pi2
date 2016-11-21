@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html><head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -93,16 +95,16 @@
 		function verifyForm() {
 			var msgError = "";
 			
-			// Compte bénéficiaire 
+			// Compte bï¿½nï¿½ficiaire 
 			var creditorAcc = $('#creditorAccount').val();
 			if (creditorAcc=="") {
-				msgError = addMsgError(msgError,'Le compte à créditer est obligatoire.');
+				msgError = addMsgError(msgError,'Le compte ï¿½ crï¿½diter est obligatoire.');
 			}
 
-			// Compte émetteur = compte destinataire
+			// Compte ï¿½metteur = compte destinataire
 			var emetAcc = $('#emetAccount').val();
 			if (emetAcc == creditorAcc) {
-				msgError = addMsgError(msgError,'Le compte à créditer doit être différent du compte à débiter.');
+				msgError = addMsgError(msgError,'Le compte ï¿½ crï¿½diter doit ï¿½tre diffï¿½rent du compte ï¿½ dï¿½biter.');
 			}
 
 			// Montant
@@ -120,10 +122,10 @@
 				}
 			}
 
-			//Date d'exécution
+			//Date d'exï¿½cution
 			var executionDate = $('#executionDate').val();
 			if (executionDate == "") {
-				msgError = addMsgError(msgError, 'La date d\'exécution est obligatoire.');
+				msgError = addMsgError(msgError, 'La date d\'exï¿½cution est obligatoire.');
 			} else {
 				var validDate = webankValidator.checkDate(executionDate,"dd/MM/yyyy","/");
 				if (!validDate) {
@@ -132,16 +134,16 @@
 				
 				var pastDate = webankValidator.isPastDate(executionDate,"/");
 				if (pastDate) {
-					msgError = addMsgError(msgError,'La date est invalide car antérieure à la date du jour.');
+					msgError = addMsgError(msgError,'La date est invalide car antï¿½rieure ï¿½ la date du jour.');
 				}
 			}
 			
-			//Libellé
+			//Libellï¿½
 			var reason = $('#reason').val();
 			if (reason != "") {
 				var validReason = webankValidator.isSepaAlnum(reason);
 				if (!validReason) {
-					msgError = addMsgError(msgError,"Le motif de l'opération accepte les valeurs alphanumériques sans accent ainsi que les caractères spéciaux suivants : / - ? : ( ) . , ' + ou l'espace.");
+					msgError = addMsgError(msgError,"Le motif de l'opï¿½ration accepte les valeurs alphanumï¿½riques sans accent ainsi que les caractï¿½res spï¿½ciaux suivants : / - ? : ( ) . , ' + ou l'espace.");
 				}
 			}
 			
@@ -158,7 +160,7 @@
 	</head>
 	<body>
 		<div class="container-fluid" id="container">
-			<div class="header">Effectuer un virement européen SEPA</div>
+			<div class="header">Effectuer un virement europï¿½en SEPA</div>
 			
 			<ul id="sub-tabs" class="tabs sub-header">
 				<li class="active" style="width: 25%">
@@ -193,7 +195,7 @@
 							<div id="sepa" class="tab-content active">
 								<div class="form-group parallel-lists">
 									<div class="col-xs-6">
-										<div>Sélectionnez un compte à débiter</div>
+										<div>Sï¿½lectionnez un compte ï¿½ dï¿½biter</div>
 										<div id="first-list" class="parallel-list">
 											<ul id="left-side">
 												
@@ -310,7 +312,7 @@
 									</div>
 									
 									<div class="col-xs-6">
-										<div>Sélectionnez un compte à créditer</div>
+										<div>Sï¿½lectionnez un compte ï¿½ crï¿½diter</div>
 										<div id="second-list" class="parallel-list hidden">
 											<ul id="right-side">
 												
@@ -434,21 +436,21 @@
 													
 														
 														
-															 <!-- Ne pas afficher les comptes présents dans les groupes -->
+															 <!-- Ne pas afficher les comptes prï¿½sents dans les groupes -->
 																<li data-item-id="13" data-item-type-dest="EXT">
 																	Amazon
 																	FR2588051715671419646813553
 																</li>
 															
 														
-															 <!-- Ne pas afficher les comptes présents dans les groupes -->
+															 <!-- Ne pas afficher les comptes prï¿½sents dans les groupes -->
 																<li data-item-id="12" data-item-type-dest="EXT">
 																	Nautic
 																	FR1045855428575607434318702
 																</li>
 															
 														
-															 <!-- Ne pas afficher les comptes présents dans les groupes -->
+															 <!-- Ne pas afficher les comptes prï¿½sents dans les groupes -->
 																<li data-item-id="10" data-item-type-dest="EXT">
 																	WINDSURF LTD
 																	NL14INGB0000005200
@@ -477,7 +479,7 @@
 									
 									<div class="form-group">
 										<label for="executionDate" class="col-xs-2 control-label">
-											Date d'exécution
+											Date d'exï¿½cution
 										</label>
 										<div class="col-xs-4">
 											<div class="has-date-picker">
@@ -488,7 +490,7 @@
 									</div>
 									<div class="form-group">
 										<label for="reason" class="col-xs-2 control-label">
-											Motif de l'opération
+											Motif de l'opï¿½ration
 										</label>
 										<div class="col-xs-8">
 											<input name="reason" value="" id="reason" class="form-control" type="text">
@@ -496,14 +498,14 @@
 									</div>
 									<div class="form-group">
 										<label for="endToEndRef" class="col-xs-2 control-label">
-											Référence End to End
+											Rï¿½fï¿½rence End to End
 										</label>
 										<div class="col-xs-8">
 											<input name="endToEndRef" maxlength="140" value="" id="endToEndRef" class="form-control" type="text">
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="reason" class="col-xs-2 control-label">Pièce justificative</label>
+										<label for="reason" class="col-xs-2 control-label">Piï¿½ce justificative</label>
 										<div class="col-xs-8">
 											<div class="input-group">
 												<span class="input-group-btn">
@@ -514,8 +516,8 @@
 												</span>
 												<input name="fileName" value="" style="z-index: 1 !important;" class="form-control input-efs-file" type="text">
 											</div>
-											<i class="fa fa-info-circle" style="color: #4285F4;"></i>&nbsp;Vous avez la possibilité de joindre un fichier (factures, bordereaux, etc.) à chaque opération requérant une confirmation (signature ou validation banque).<br>
-Les fichiers joints peuvent être aux formats pdf, jpeg, png, format texte, Word, Excel...
+											<i class="fa fa-info-circle" style="color: #4285F4;"></i>&nbsp;Vous avez la possibilitï¿½ de joindre un fichier (factures, bordereaux, etc.) ï¿½ chaque opï¿½ration requï¿½rant une confirmation (signature ou validation banque).<br>
+Les fichiers joints peuvent ï¿½tre aux formats pdf, jpeg, png, format texte, Word, Excel...
 										</div>
 									</div>
 									<div class="form-group">

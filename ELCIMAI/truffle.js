@@ -1,7 +1,6 @@
 module.exports = {
   build: {
     "index.html": "index.html",
-    "step1.html": "step1.html",
     "step2.html": "step2.html",
     "step3.html": "step3.html",
     "step4.html": "step4.html",

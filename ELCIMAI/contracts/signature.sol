@@ -1,8 +1,8 @@
 contract signature {
 // PUBLICS ATTRIBUTES
 address public owner;
-mapping public (uint => bool) isSign;
 transac[] public transacs;
+mapping(address => transac) public map;
 // Constructor
 	function signature()
 	{
@@ -10,28 +10,32 @@ transac[] public transacs;
 	}
 // Structures
 struct transac{
-	uint somme;
-	uint timestamp;
-	address from;
-	uint details;
-	bool isSigned;
+	uint somme; // somme
+	uint timestamp; // block number
+	address from; // origin
+	address hash; // hash
+	bool isSigned; // est signée ? (t/f)
 }
 //Functions
-function initTransac(uint _somme,uint _details){
+function initTransac(uint _somme){
 uint transacID = transacs.length++;
         transac p = transacs[transacID];        
-        p.somme=_sommme;
+        p.somme=_somme;
         p.timestamp =  now;
         p.from =msg.sender;
-        p.details=_details;
-        isSigned=false;
+        p.isSigned=false;
 }
 
-function toSignStruct(uint _id){
-transacs[_id].isSigned=true;
+function toSign(){
+uint transacID = transacs.length-1;
+transacs[transacID].isSigned=true;
+
 }
-function toSignMapping(uint _details){
-isSign[_details]=true;
+function addHash(address _hash)
+{
+uint transacID = transacs.length-1;
+	transacs[transacID].hash=_hash;
+map[_hash]=transacs[transacID];
 }
 
 //Modifiers (Constraints)
